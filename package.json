@@ -1,0 +1,37 @@
+{
+  "name": "xml-obj",
+  "version": "1.0.0",
+  "description": "A convertor between js object and  XML. XML.querySelector() is supported.",
+  "keywords": [
+    "xml",
+    "object",
+    "parse",
+    "stringify",
+    "query",
+    "selector",
+    "javascript",
+    "json",
+    "cdata",
+    "convertor",
+    "convert-js",
+    "xml-js"
+  ],
+  "main": "index.min.js",
+  "license": "MIT",
+  "bugs": {
+    "email": "manuel@hauss.ee"
+  },
+  "author": "Manuel Lõhmus <manuel@hauss.ee>",
+  "files": [
+    "index.js",
+    "index.min.js",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuel-lohmus/xml-obj.git"
+  },
+  "homepage": "https://github.com/manuel-lohmus/xml-obj#readme"
+}

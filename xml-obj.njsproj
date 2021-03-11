@@ -1,0 +1,64 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>xml-obj</Name>
+    <RootNamespace>xml-obj</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>b8a7612c-1b7e-4fda-9b7f-328042db64ed</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>test.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <Content Include="index.js" />
+    <Content Include="LICENSE" />
+    <Content Include="log\error.log" />
+    <Content Include="log\stderr.log" />
+    <Content Include="log\stdout.log" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="test.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="test.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="tests\unit-test.js">
+      <SubType>Code</SubType>
+      <TestFramework>mocha</TestFramework>
+    </Content>
+    <Content Include="tests\xml_file.xml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="log\" />
+    <Folder Include="tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="index.min.js">
+      <SubType>Code</SubType>
+      <DependentUpon>index.js</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+</Project>
