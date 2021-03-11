@@ -26,7 +26,7 @@ var strXml = `
 `;
 var objXml = XML.parse(strXml);
 
-var val = objXml.querySelector(et');
+var val = objXml.querySelector('et');
 console.log('val: ' + val);
 
 var strJson = JSON.stringify(objXml, null, 2);
