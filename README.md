@@ -171,13 +171,13 @@ XML.Decode(input)
 /**
 * @param {any} objXml
 * @param {string} selectors
-* @returns {any}
+* @returns {any[]}
 */
 XML.querySelectorAll(objXml, selectors)
 
 /**
 * @param {string} selectors
-* @returns {any}
+* @returns {any[]}
 */
 objXml.querySelectorAll(selectors)
 /**

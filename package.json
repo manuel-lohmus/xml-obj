@@ -1,6 +1,6 @@
 {
   "name": "xml-obj",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A convertor between js object and  XML. XML.querySelector() is supported.",
   "keywords": [
     "xml",

@@ -6,9 +6,10 @@
     // #region encoding
 
     /**
-    * @param {string} input .
-    * @returns {string} .
-    */
+     * XML Encode
+     * @param {string} input .
+     * @returns {string} .
+     */
     function Encode(input) {
 
         var strOutput;
@@ -43,9 +44,10 @@
     xlmObj.encode = Encode;
 
     /**
-    * @param {string} input .
-    * @returns {string} .
-    */
+     * XML Decode
+     * @param {string} input .
+     * @returns {string} .
+     */
     function Decode(input) {
 
         var strOutput;
@@ -695,7 +697,7 @@
         else if (!space)
             space = "\t";
 
-        if (!tagName) isRoot = true;
+        if (!tagName && typeof isRoot === "undefined") isRoot = true;
 
         var arr = ObjectToXmlArr(obj, tagName, isMin, space, isRoot)
                 .map(function (s) {
@@ -769,7 +771,7 @@
             else if (typeof obj === "object" && obj)
                 Object.keys(obj).forEach(function (key) {
 
-                    if (key[0] !== "-") {
+                    if (key[0] !== "-" && typeof obj[key] !== "function") {
 
                         if (key === "@innerXML") { // @innerXML
 
@@ -1040,10 +1042,11 @@
         }
         return null;
     }
+
     /**
      * @param {any} obj
      * @param {string} selectors
-     * @returns {any}
+     * @returns {any[]}
      */
     function querySelectorAll(obj, selectors) {
 
@@ -1088,6 +1091,12 @@
         return result.length ? result : null;
     }
     xlmObj.querySelectorAll = querySelectorAll;
+    
+    /**
+     * @param {any} obj
+     * @param {string} selectors
+     * @returns {any}
+     */
     function querySelector(obj, selectors) {
         if (typeof selectors !== "string") return null;
         var isAll = selectors[0] === "*";
