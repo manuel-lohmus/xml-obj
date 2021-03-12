@@ -1,5 +1,8 @@
 # xml-obj: XML library for browser and node.js
 
+[![npm-version](https://badgen.net/npm/v/xml-obj)](https://www.npmjs.com/package/xml-obj)
+[![npm-total-downloads](https://badgen.net/npm/dw/xml-obj)](https://www.npmjs.com/package/xml-obj)
+
 'xml-obj' is a simple to use. 
 Converting XML to an object is available in the browser and node.js.
 XML.querySelector() is supported. 
