@@ -70,7 +70,6 @@
 
                     switch (key) {
 
-                        case "nbsp": strOutput += " "; i = j; break; // " "
                         case "quot": strOutput += "\""; i = j; break; // "
                         case "amp": strOutput += "&"; i = j; break; // &
                         case "apos": strOutput += "'"; i = j; break; // '

@@ -35,6 +35,10 @@
     <Content Include="log\stderr.log" />
     <Content Include="log\stdout.log" />
     <Content Include="package.json" />
+    <Content Include="README.html">
+      <SubType>Content</SubType>
+      <DependentUpon>README.md</DependentUpon>
+    </Content>
     <Content Include="README.md" />
     <Content Include="test.html">
       <SubType>Code</SubType>

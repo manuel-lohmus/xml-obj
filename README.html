@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>xml-obj: XML library for browser and node.js</title>
+</head>
+<body>
+
+    <h1 id="xml-obj-xml-library-for-browser-and-node.js">xml-obj: XML library for browser and node.js</h1>
+    <p>
+        <a href="https://www.npmjs.com/package/xml-obj"><img src="https://badgen.net/npm/v/xml-obj" alt="npm-version" /></a>
+        <a href="https://www.npmjs.com/package/xml-obj"><img src="https://badgen.net/npm/dw/xml-obj" alt="npm-week-downloads" /></a>
+    </p>
+    <p>
+        'xml-obj' is a simple to use.
+        Converting XML to an object is available in the browser and node.js.
+        XML.querySelector() is supported.
+    </p>
+    <h2 id="installing">Installing</h2>
+    <p><code>npm install xml-obj</code></p>
+    <h2 id="usage-example-for-node.js">Usage example for node.js</h2>
+<pre><code class="language-js">'use strict';
+
+var XML = require('xml-obj');
+
+var strXml = `
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;root id=&quot;abc &amp;lt;&amp;quot;&amp;amp;&amp;apos;&amp;gt;&quot;&gt;
+	&lt;et&gt;Eesti&lt;/et&gt;
+	text	
+	&lt;![CDATA[123]]&gt;
+&lt;/root&gt;
+&lt;!-- comment nodes may appear almost anywhere --&gt;
+`;
+var objXml = XML.parse(strXml);
+
+var val = objXml.querySelector('et');
+console.log('val: ' + val);
+
+var strJson = JSON.stringify(objXml, null, 2);
+console.log('strJson: ' + strJson);
+</code></pre>
+    <p>output:</p>
+<pre><code class="language-console">val: Eesti
+strJson: {
+  &quot;@innerXML&quot;: [
+    {
+      &quot;root&quot;: {
+        &quot;@innerXML&quot;: [
+          {
+            &quot;et&quot;: &quot;Eesti&quot;
+          },
+          {
+            &quot;@text&quot;: &quot;\ttext\t\n\t&quot;
+          },
+          {
+            &quot;@cdata&quot;: &quot;123&quot;
+          }
+        ],
+        &quot;-id&quot;: &quot;abc &lt;\&quot;&amp;'&gt;&quot;
+      }
+    },
+    {
+      &quot;@comment&quot;: &quot; comment nodes may appear almost anywhere &quot;
+    }
+  ],
+  &quot;-version&quot;: &quot;1.0&quot;,
+  &quot;-encoding&quot;: &quot;utf-8&quot;
+}
+</code></pre>
+    <h2 id="usage-example-for-browser">Usage example for browser</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;title&gt;XML Test Page&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+/** XML-OBJ functions for JavaScript and node.js. @preserve Copyright (c) 2020 Manuel L�hmus.*/
+(function(n){function i(n){var t,i,r;if(typeof n==&quot;string&quot;){for(t=&quot;&quot;,i=0;i&lt;n.length;i++){r=n.charCodeAt(i);switch(r){case 34:t+=&quot;&amp;quot;&quot;;break;case 38:t+=&quot;&amp;amp;&quot;;break;case 39:t+=&quot;&amp;apos;&quot;;break;case 60:t+=&quot;&amp;lt;&quot;;break;case 62:t+=&quot;&amp;gt;&quot;;break;default:t+=n.charAt(i)}}return t}return n}function t(n){var i,t,u,f,r;if(typeof n==&quot;string&quot;){for(i=&quot;&quot;,t=0;t&lt;n.length;t++)if(u=n.charAt(t),u===&quot;&amp;&quot;){for(f=&quot;&quot;,r=t;++r&lt;n.length&amp;&amp;f.length&lt;16&amp;&amp;n.charAt(r)!==&quot;;&quot;;)f+=n.charAt(r);switch(f){case&quot;nbsp&quot;:i+=&quot; &quot;;t=r;break;case&quot;quot&quot;:i+='&quot;';t=r;break;case&quot;amp&quot;:i+=&quot;&amp;&quot;;t=r;break;case&quot;apos&quot;:i+=&quot;'&quot;;t=r;break;case&quot;lt&quot;:i+=&quot;&lt;&quot;;t=r;break;case&quot;gt&quot;:i+=&quot;&gt;&quot;;t=r;break;default:i+=u}}else i+=u;return i}return n}function s(n,t){var i=null,f;return typeof n==&quot;string&quot;&amp;&amp;(f=h(n,t),f&amp;&amp;(i=u(f))),i.querySelector=function(n){return o(i,n)},i.querySelectorAll=function(n){return r(i,n)},i}function u(n){var t=null,e,r,i,o,f;if(n&amp;&amp;n.name){if(e=n.children?n.children.filter(function(n){return n&amp;&amp;n.name[0]===&quot;@&quot;}):[],e.length===1&amp;&amp;n.children.length===1)n.attributes&amp;&amp;n.attributes.length?(t={},t[n.children[0].name]=n.children[0].value):n.children[0].name===&quot;@text&quot;?t=n.children[0].value:(t={},t[n.children[0].name]=n.children[0].value);else if(n.isEmpty)t=&quot;&quot;;else if(n.children&amp;&amp;n.children.length)for(t={},r=0;r&lt;n.children.length;r++)i=n.children[r].name,e.length&gt;0?(t[&quot;@innerXML&quot;]||(t[&quot;@innerXML&quot;]=[]),i?(o={},o[i]=u(n.children[r]),t[&quot;@innerXML&quot;].push(o)):t[&quot;@innerXML&quot;].push(n.children[r])):t[i]?Array.isArray(t[i])?t[i].push(u(n.children[r])):(t[i]=[t[i]],t[i].push(u(n.children[r]))):t[i]=u(n.children[r]);else n.value&amp;&amp;(t={},t=n.value);if(n.attributes&amp;&amp;n.attributes.length&gt;0)for(t&amp;&amp;typeof t==&quot;object&quot;||(t={}),f=0;f&lt;n.attributes.length;f++)t[&quot;-&quot;+n.attributes[f].name]=n.attributes[f].value}return t}function h(n,t){var i;return i=w(n),i||(i=c(n),i||(i=l(n),i||(i=a(n,t)))),i}function w(n){var f,u,r;if(n&amp;&amp;(f=n.indexOf(&quot;&lt;&quot;)-1,f&lt;-1&amp;&amp;(f=n.length-1),f&gt;-1&amp;&amp;(u=n.substr(0,f+1),u=t(u),u&amp;&amp;u.trim()))){function e(n){while(n[0]===&quot;\n&quot;||n[0]===&quot;\r&quot;)n=n.substr(1);while(n.length&amp;&amp;(n[n.length-1]===&quot;\n&quot;||n[n.length-1]===&quot;\r&quot;))n=n.substr(0,n.length-1);return n}return r={name:&quot;@text&quot;,value:e(u)},Object.defineProperty(r,&quot;innerXml&quot;,{get:function(){return i(r.value)},set:function(n){r.value=t(n)}}),Object.defineProperty(r,&quot;outerXml&quot;,{get:function(){return i(r.value)},set:function(n){r.value=t(n)}}),r.followingXml=function(){var t=n.indexOf(&quot;&lt;&quot;);return t&gt;-1?n.substr(t):&quot;&quot;},r}}function c(n){var r,e,t;if(n&amp;&amp;(r=n.indexOf(&quot;&lt;&quot;),r&gt;-1&amp;&amp;n.substr(r,9)===&quot;&lt;![CDATA[&quot;)){var f=n.indexOf(&quot;]\]&gt;&quot;),i=r+9,u=n.indexOf(&quot;]\]&gt;&quot;)-i;if(u=f&lt;0?n.length-1-i:f-i,i+u+2&lt;n.length)return e=n.substr(i,u),t={name:&quot;@cdata&quot;,value:e},Object.defineProperty(t,&quot;innerXml&quot;,{get:function(){return t.value},set:function(n){t.value=n}}),Object.defineProperty(t,&quot;outerXml&quot;,{get:function(){return&quot;&lt;![CDATA[&quot;+t.value+&quot;]\]&gt;&quot;},set:function(n){t.value=new c(n).value}}),t.followingXml=function(){var t=n.indexOf(&quot;]\]&gt;&quot;);return t&lt;0?&quot;&quot;:n.substr(t+3)},t}}function l(n){var i,e,t;if(n&amp;&amp;(i=n.indexOf(&quot;&lt;&quot;),i&gt;-1&amp;&amp;n.substr(i,4)===&quot;&lt;!--&quot;)){var u=n.indexOf(&quot;--&gt;&quot;),r=i+4,f=u&lt;0?n.length-1-r:u-r;if(r+f+2&lt;n.length)return e=n.substr(r,f),t={name:&quot;@comment&quot;,value:e},Object.defineProperty(t,&quot;innerXml&quot;,{get:function(){return t.value},set:function(n){t.value=n}}),Object.defineProperty(t,&quot;outerXml&quot;,{get:function(){return&quot;&lt;!--&quot;+t.value+&quot;--&gt;&quot;},set:function(n){t.value=new l(n).value}}),t.followingXml=function(){var t=n.indexOf(&quot;--&gt;&quot;);return t&lt;0?&quot;&quot;:n.substr(t+3)},t}}function a(n,t){var i,o,u,f,s,r,c,e;return n&amp;&amp;(o=n.indexOf(&quot;&lt;&quot;),u=n.indexOf(&quot;&gt;&quot;,o),u&gt;-1&amp;&amp;(i={},f=n.substr(o,u-o+1).trim(),i.isEmpty=f.substr(f.length-2)===&quot;/&gt;&quot;,f=b(f),s=f.split(&quot; &quot;),i.name=s.shift(),i.attributes=k(s.join(&quot; &quot;)),i.isEmpty||(c=v(n,i.name),i.name===&quot;?xml&quot;?r=n.substr(u+1):c&gt;-1?(r=n.substr(u+1,c-u-1),i.isEmpty=!r):i.isEmpty=null),Object.defineProperty(i,&quot;innerXml&quot;,{get:function(){for(var t=&quot;&quot;,n=0;n&lt;i.children.length;n++)t+=i.children[n].outerXml;return t},set:function(n){n!==r&amp;&amp;(r=n,e=undefined)}}),Object.defineProperty(i,&quot;outerXml&quot;,{get:function(){var n=&quot;&quot;,t,u,r,f;if(i.name===&quot;xml&quot;){for(n+=&quot;&lt;?&quot;+i.name,t=0;t&lt;i.attributes.length;t++)n+=&quot; &quot;+i.attributes[t].name+'=&quot;'+i.attributes[t].value+'&quot;';for(n+=&quot;?&gt;&quot;,u=0;u&lt;i.children.length;u++)n+=i.children[u].outerXml}else{for(n+=&quot;&lt;&quot;+i.name,r=0;r&lt;i.attributes.length;r++)n+=&quot; &quot;+i.attributes[r].name+'=&quot;'+i.attributes[r].value+'&quot;';if(i.isEmpty===null)n+=&quot;&gt;&quot;;else if(i.isEmpty)n+=&quot;/&gt;&quot;;else{for(n+=&quot;&gt;&quot;,f=0;f&lt;i.children.length;f++)n+=i.children[f].outerXml;n+=&quot;&lt;\/&quot;+i.name+&quot;&gt;&quot;}}return n},set:function(n){var t=a(n);t&amp;&amp;(i.name=t.name,i.attributes=t.attributes,i.innerXml=t.innerXml)}}),Object.defineProperty(i,&quot;children&quot;,{get:function(){if(!e){e=[];for(var n;r&amp;&amp;(n=h(r));)n.name===&quot;@comment&quot;&amp;&amp;t||(n.parent=i,e.push(n)),r=n.followingXml()}return e}}),i.followingXml=function(){var t=v(n,i.name,!0);return n.substr(t)})),i}function b(n){return typeof n==&quot;string&quot;?(n[0]===&quot;&lt;&quot;&amp;&amp;(n=n.substr(1)),n[0]===&quot;!&quot;&amp;&amp;(n=n.substr(1)),n[n.length-1]===&quot;&gt;&quot;&amp;&amp;(n=n.substr(0,n.length-1)),n[n.length-1]===&quot;?&quot;&amp;&amp;(n=n.substr(0,n.length-1)),n[n.length-1]===&quot;/&quot;&amp;&amp;(n=n.substr(0,n.length-1)),n[0]===&quot;-&quot;&amp;&amp;n[1]===&quot;-&quot;&amp;&amp;n[n.length-2]===&quot;-&quot;&amp;&amp;n[n.length-1]===&quot;-&quot;&amp;&amp;(n=n.substr(2,n.length-4)),n):&quot;&quot;}function v(n,t,i){for(var f=[],u=-1,r=n.indexOf(&quot;&lt;&quot;+t)+1+t.length;(r=n.indexOf(t,r))&gt;-1;){if(r&gt;1&amp;&amp;n[r-2]===&quot;&lt;&quot;&amp;&amp;n[r-1]===&quot;/&quot;)if(f.length===0){u=r-2;break}else f.pop();else n[r-1]===&quot;&lt;&quot;&amp;&amp;n[n.indexOf(&quot;&gt;&quot;,r)-1]!==&quot;/&quot;&amp;&amp;f.push(r);r+=t.length}return i&amp;&amp;(u=u&lt;0?n.indexOf(&quot;&gt;&quot;)+1:n.indexOf(&quot;&gt;&quot;,u)+1),u}function k(n){for(var t=n.split(/&quot;\s/),r=[],i;t.length;)i=d(t[0]),t.shift(),i&amp;&amp;r.push(i);return r}function d(n){var r,u,i;return typeof n==&quot;string&quot;&amp;&amp;(r=n.split(&quot;=&quot;),r[0])?(u={},u.name=r[0].trim(),i=r[1]?r[1].trim():null,i&amp;&amp;(i=i[0]==='&quot;'||i[0]===&quot;'&quot;?i.substr(1):i,i=i[i.length-1]==='&quot;'||i[i.length-1]===&quot;'&quot;?i.substr(0,i.length-1):i),u.value=t(i),u):null}function g(n,t,i,r,u){return f(n,t,i,r,u).join(&quot;&quot;)}function y(n,t,i,r,u){var e,o;if(typeof r==&quot;number&quot;)for(e=r&lt;10?r:10;e&gt;0;e--)r=r[0]===&quot;\t&quot;?r+&quot;\t&quot;:&quot;\t&quot;;else r||(r=&quot;\t&quot;);return t||(u=!0),o=f(n,t,i,r,u).map(function(n){n=n+&quot;&quot;;var t=n.split(/[\r|\n]/);return/\S/.test(t.pop())||(n=t.join(&quot;\r\n&quot;)),n.substr(0,r.length)===r&amp;&amp;(n=n.substr(r.length)),n}),o.join(&quot;\r\n&quot;)}function f(n,t,r,u,o){function l(){n&amp;&amp;(s.push('&lt;?xml version=&quot;'+(n[&quot;-version&quot;]?n[&quot;-version&quot;]:&quot;1.0&quot;)+'&quot; encoding=&quot;'+(n[&quot;-encoding&quot;]?n[&quot;-encoding&quot;]:&quot;UTF-8&quot;)+'&quot; ?&gt;'),delete n[&quot;-version&quot;],delete n[&quot;-encoding&quot;])}function p(){var t=&quot;&quot;;return typeof n==&quot;object&quot;&amp;&amp;n&amp;&amp;Object.keys(n).forEach(function(r){r[0]===&quot;-&quot;&amp;&amp;n[r]&amp;&amp;(t+=&quot; &quot;+r.substr(1)+'=&quot;'+i(n[r])+'&quot;')}),t}function a(r){var f=[];return r&amp;&amp;!n?f:n===undefined||n===&quot;&quot;?f:(Array.isArray(n)?f=f.concat(e(n,t,r,u)):typeof n==&quot;object&quot;&amp;&amp;n?Object.keys(n).forEach(function(t){if(t[0]!==&quot;-&quot;)if(t===&quot;@innerXML&quot;)for(var i=0;i&lt;n[t].length;i++)f=f.concat(v(n[t][i],undefined,r,u));else f=f.concat(v(n[t],t,r,u))}):f.push(u+i(n)),f)}function v(n,t,r){var o=[];if(t)switch(t){case&quot;@text&quot;:o.push(i(n));break;case&quot;@cdata&quot;:o.push(u+&quot;&lt;![CDATA[&quot;+n+&quot;]\]&gt;&quot;);break;case&quot;@comment&quot;:o.push(u+&quot;&lt;!--&quot;+n+&quot;--&gt;&quot;);break;default:if(r&amp;&amp;!n)break;else(n===undefined||n===&quot;&quot;)&amp;&amp;o.push(u+&quot;&lt;&quot;+t+&quot;/&gt;&quot;);Array.isArray(n)?o=o.concat(e(n,t,r,u)):typeof n==&quot;object&quot;?o=o.concat(f(n,t,r,u)):o.push(u+&quot;&lt;&quot;+t+&quot;&gt;&quot;+i(n)+&quot;&lt;\/&quot;+t+&quot;&gt;&quot;)}else Array.isArray(n)?o=o.concat(e(n,t,r,u)):typeof n==&quot;object&quot;?o=o.concat(f(n,t,r,u)):o.push(u+i(n));return o}var s=[];if(u||(u=&quot;&quot;),Array.isArray(n))return t?e(n,t,r,u,o):e(n,t,r,u);if(t){o&amp;&amp;l();var h=(o?&quot;&quot;:u)+&quot;&lt;&quot;+t,y=p(),c=a(r);if(r&amp;&amp;!c.length&amp;&amp;!y)return&quot;&quot;;h+=y;c.length?(s.push(h+&quot;&gt;&quot;),s=s.concat(c.map(function(n){return(o?&quot;&quot;:u)+n})),s.push((o?&quot;&quot;:u)+&quot;&lt;\/&quot;+t+&quot;&gt;&quot;)):s.push(h+&quot;/&gt;&quot;)}else o&amp;&amp;l(),s=s.concat(a(r));return s}function e(n,t,i,r,u){var e=[],s=!1,o,h;for(r||(r=&quot;&quot;),(!t||u)&amp;&amp;(s=!0,e.push('&lt;?xml version=&quot;'+(n[&quot;-version&quot;]?n[&quot;-version&quot;]:&quot;1.0&quot;)+'&quot; encoding=&quot;'+(n[&quot;-encoding&quot;]?n[&quot;-encoding&quot;]:&quot;UTF-8&quot;)+'&quot;?&gt;'),delete n[&quot;-version&quot;],delete n[&quot;-encoding&quot;],e.push(&quot;&lt;root&gt;&quot;),t=!t&amp;&amp;n[0]&amp;&amp;n[0].constructor&amp;&amp;n[0].constructor.name?n[0].constructor.name:t?t:&quot;node&quot;),o=0;o&lt;n.length;o++)h=f(n[o],t,i,r),h.length?e=e.concat(h):e.push((s?&quot;&quot;:r)+&quot;&lt;&quot;+t+&quot;/&gt;&quot;);return s&amp;&amp;e.push(&quot;&lt;\/root&gt;&quot;),e}function nt(n){var r={},i;return n&amp;&amp;n[0]===&quot;.&quot;?r.className=t(n.substr(1)):n&amp;&amp;n.indexOf(&quot;.&quot;)&gt;-1?(i=n.split(&quot;.&quot;),r.tagName=i.shift(),r.className=t(i.join(&quot;.&quot;))):n&amp;&amp;n[0]===&quot;#&quot;?r.id=t(n.substr(1)):n&amp;&amp;n.indexOf(&quot;[&quot;)&gt;-1?(i=n.split(&quot;[&quot;),r.tagName=i.shift(),i=i.join(&quot;[&quot;).replace(&quot;]&quot;,&quot;&quot;).split(&quot;=&quot;),i[0]&amp;&amp;(r.attribute=i[0]),i[1]&amp;&amp;(r.attributeValue=t(i[1]))):n&amp;&amp;(r.tagName=n),r}function tt(n,t,i){var r,u;return t&amp;&amp;typeof i==&quot;string&quot;?(i=nt(i),r=!1,i.tagName&amp;&amp;(r=n===i.tagName),i.id&amp;&amp;(r=t[&quot;-id&quot;]===i.id),i.className&amp;&amp;t[&quot;-class&quot;]&amp;&amp;(u=t[&quot;-class&quot;].split(&quot; &quot;),r=u.indexOf(i.className)&gt;-1),i.attribute&amp;&amp;t[&quot;-&quot;+i.attribute]&amp;&amp;(r=i.attributeValue?t[&quot;-&quot;+i.attribute]===i.attributeValue:!0),r):!1}function it(n,t,i){if(t&amp;&amp;typeof i==&quot;string&quot;){var u=i.trim().split(&quot; &quot;),f=u.shift();if(tt(n,t,f))return u.length?u[0].trim()===&quot;&gt;&quot;?(u.shift(),r(t,u.join(&quot; &quot;))):[o(t,u.join(&quot; &quot;))]:[t]}return null}function p(n,t,i){if(t&amp;&amp;typeof i==&quot;string&quot;){var r=[];return i.split(&quot;,&quot;).forEach(function(i){var u=it(n,t,i);Array.isArray(u)&amp;&amp;u.length&amp;&amp;(r=r.concat(u))}),r}return null}function r(n,t){var i=[],u=[];return Array.isArray(n)?n.forEach(function(n){i=r(n,t);Array.isArray(i)&amp;&amp;i.length&amp;&amp;(u=u.concat(i))}):typeof n==&quot;object&quot;&amp;&amp;n&amp;&amp;Object.keys(n).forEach(function(f){f[0]!==&quot;-&quot;&amp;&amp;(Array.isArray(n[f])?n[f].forEach(function(n){var r=p(f,n,t);Array.isArray(r)&amp;&amp;r.length&amp;&amp;(i=i.concat(r))}):i=p(f,n[f],t),Array.isArray(i)&amp;&amp;i.length?u=u.concat(i):(i=r(n[f],t),Array.isArray(i)&amp;&amp;(u=u.concat(i))))}),u.length?u:null}function o(n,t){if(typeof t!=&quot;string&quot;)return null;var u=t[0]===&quot;*&quot;,i=r(n,u?t.substr(1):t);return u?i:i&amp;&amp;i[0]?i[0]:null}return n.encode=i,n.decode=t,n.toObject=s,n.parse=s,n.toXml=g,n.toPrettyXml=y,n.stringify=y,n.querySelectorAll=r,n.querySelector=o,n})(typeof exports==&quot;undefined&quot;?this.XML||(this.XML={}):exports);
+    &lt;/script&gt;
+    &lt;script id=&quot;xml&quot; type=&quot;text/html&quot;&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;!-- comment nodes may appear almost anywhere --&gt;
+&lt;root id=&quot;abc &amp;lt;&amp;quot;&amp;amp;&amp;apos;&amp;gt;&quot;&gt;
+    &lt;et&gt;Eesti&lt;/et&gt;
+    text
+    &lt;![CDATA[123]]&gt;
+    &lt;!-- comment nodes may appear almost anywhere --&gt;
+&lt;/root&gt;
+&lt;!-- comment nodes may appear almost anywhere --&gt;
+    &lt;/script&gt;
+    &lt;script&gt;
+
+        function load() {
+
+            var strXml = document.getElementById(&quot;xml&quot;).innerHTML;
+            var objXml = XML.parse(strXml);
+            var strJson = JSON.stringify(objXml, null, 2);
+
+            function format(str) {
+
+                return str.split(&quot;\n&quot;).map(function (line) {
+
+                        return &quot;&lt;code&gt;&quot; + line.split(&quot;&quot;)
+                            .map(function (c) { return c === &quot; &quot; ? &quot;&amp;nbsp;&quot; : &quot;&amp;#&quot; + c.charCodeAt(0) + &quot;;&quot;; })
+                            .join(&quot;&quot;) + &quot;&lt;/code&gt;&lt;br /&gt;&quot;;
+                    })
+                    .join(&quot;&quot;);
+            }
+
+            document.body.innerHTML = &quot;&lt;h3&gt;Xml:&lt;/h3&gt;&quot; + format(strXml);
+            document.body.innerHTML += &quot;&lt;h3&gt;querySelector:&lt;/h3&gt;objXml.querySelector('et')&amp;nbsp;=&gt;&amp;nbsp;&quot; + objXml.querySelector('et');
+            document.body.innerHTML += &quot;&lt;h3&gt;Json:&lt;/h3&gt;&quot; + format(strJson);
+        }
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload=&quot;load()&quot;&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    <h2 id="xml-reference">XML Reference</h2>
+<pre><code>/**
+* Convert xml string to object.
+* @param {string} xml .
+* @param {Boolean} ignoreComment .
+* @returns {Object} .
+*/
+XML.parse(xml, ignoreComment)
+XML.toObject(xml, ignoreComment)
+
+/**
+* Get xml string. 
+* Parameter 'tagName' is name current item (optional). 
+* Parameter 'isMin' ignore empty fields (optional).
+* @param {any} obj Object.
+* @param {string} tagName Tag name (optional).
+* @param {Boolean} isMin Ignore empty fields (optional).
+* @param {String | Number} space Either a String or a Number. Number, from 0 to 10, to indicate how many space characters to use as white space. (optional).
+* @param {Boolean} isRoot .
+* @returns {string} xml string.
+*/
+XML.stringify(obj, tagName, isMin, space, isRoot)
+XML.toPrettyXml(obj, tagName, isMin, space, isRoot)
+
+/**
+* Get xml string.
+* Parameter 'tagName' is name current item (optional). 
+* Parameter 'isMin' ignore empty fields (optional).
+* @param {any} obj Object.
+* @param {string} tagName Tag name (optional).
+* @param {Boolean} isMin Ignore empty fields (optional).
+* @param {String | Number} space Either a String or a Number. Number, from 0 to 10, to indicate how many space characters to use as white space. (optional).
+* @param {Boolean} isRoot .
+* @returns {string} xml string.
+*/
+XML.toXml(obj, tagName, isMin, space, isRoot) 
+
+/**
+* @param {string} input .
+* @returns {string} .
+*/
+XML.Encode(input)
+
+/**
+* @param {string} input .
+* @returns {string} .
+*/
+XML.Decode(input)
+
+/**
+* @param {any} objXml
+* @param {string} selectors
+* @returns {any[]}
+*/
+XML.querySelectorAll(objXml, selectors)
+
+/**
+* @param {string} selectors
+* @returns {any[]}
+*/
+objXml.querySelectorAll(selectors)
+/**
+* @param {any} objXml
+* @param {string} selectors
+* @returns {any}
+*/
+XML.querySelector(objXml, selectors)
+
+/**
+* @param {string} selectors
+* @returns {any}
+*/
+objXml.querySelector(selectors)
+</code></pre>
+    <h2 id="license">License</h2>
+    <p><a href="LICENSE">MIT</a></p>
+    <p>Copyright (c) 2021 Manuel Lõhmus <a href="mailto:manuel@hauss.ee">manuel@hauss.ee</a></p>
+
+
+</body>
+</html>
